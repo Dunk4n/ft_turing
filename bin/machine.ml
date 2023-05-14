@@ -1,4 +1,3 @@
-
 type instruction =
 {
     read : char;
@@ -26,33 +25,87 @@ type machine =
 }
 
 let display_instruction instruction =
-    Printf.printf "        { read: \"%c\", to_state: \"%s\", write: \"%c\", action: \"%s\" }\n" instruction.read instruction.to_state instruction.write (if instruction.action then "RIGHT" else "LEFT")
+    Printf.printf "            { \"read\" : \"%c\", \"to_state\" : \"%s\", \"write\" : \"%c\", \"action\" : \"%s\" }" instruction.read instruction.to_state instruction.write (if instruction.action then "RIGHT" else "LEFT")
 
 let display_transition transition =
-    Printf.printf "    %s\n    [\n" transition.transition_name;
-    List.iter (fun instruction -> display_instruction instruction) transition.instructions;
-    Printf.printf "    ]\n"
+    Printf.printf "        \"%s\":\n        [\n" transition.transition_name;
+    for cnt = 0 to (List.length transition.instructions) -1 do
+        display_instruction (List.nth transition.instructions cnt);
+        if cnt < ((List.length transition.instructions) - 1) then
+            Printf.printf ",";
+        Printf.printf "\n"
+    done;
+    Printf.printf "        ]"
 
 let display machine =
-    Printf.printf " --- Machine %s ---\n" machine.name;
-    Printf.printf "    Alphabet: [";
+    Printf.printf "{\n    \"name\" : \"%s\",\n" machine.name;
+    Printf.printf "    \"alphabet\" : [";
     for cnt = 0 to (List.length machine.alphabet) - 1 do
-        Printf.printf " \"%s\"" (List.nth machine.alphabet cnt)
+        Printf.printf " \"%s\"" (List.nth machine.alphabet cnt);
+        if cnt < ((List.length machine.alphabet) - 1) then
+            Printf.printf ","
     done;
-    Printf.printf " ]\n";
-    Printf.printf "    blank: \"%c\"\n" machine.blank;
-    Printf.printf "    states: [";
+    Printf.printf " ],\n";
+    Printf.printf "    \"blank\" : \"%c\",\n" machine.blank;
+    Printf.printf "    \"states\" : [";
     for cnt = 0 to (List.length machine.states) -1 do
-        Printf.printf " \"%s\"" (List.nth machine.states cnt)
+        Printf.printf " \"%s\"" (List.nth machine.states cnt);
+        if cnt < ((List.length machine.states) - 1) then
+            Printf.printf ","
+    done;
+    Printf.printf " ],\n";
+    Printf.printf "    \"initial\" : \"%s\",\n" machine.initial;
+    Printf.printf "    \"finals\" : [";
+    for cnt = 0 to (List.length machine.finals) - 1 do
+        Printf.printf " \"%s\"" (List.nth machine.finals cnt);
+        if cnt < ((List.length machine.finals) - 1) then
+            Printf.printf ","
+    done;
+    Printf.printf " ],\n    \"transitions\" :\n    {\n";
+    for cnt = 0 to (List.length machine.transitions) -1 do
+        display_transition (List.nth machine.transitions cnt);
+        if cnt < ((List.length machine.transitions) - 1) then
+            Printf.printf ",";
+        Printf.printf "\n"
+    done;
+    Printf.printf "    }\n}\n"
+
+let simple_display_instruction name instruction =
+    Printf.printf "(%s, %c) -> (%s, %c, %s)\n" name instruction.read instruction.to_state instruction.write (if instruction.action = true then "RIGHT" else "LEFT")
+
+let simple_display machine =
+    Printf.printf "********************************************************************************\n";
+    Printf.printf "*                              %*s                                       *\n" (String.length machine.name) " ";
+    Printf.printf "*                              %s                                       *\n" machine.name;
+    Printf.printf "*                              %*s                                       *\n" (String.length machine.name) " ";
+    Printf.printf "********************************************************************************\n";
+    Printf.printf "Alphabet : [";
+    for cnt = 0 to (List.length machine.alphabet) - 1 do
+        if (cnt < (List.length machine.alphabet) - 1) then
+            Printf.printf " %s," (List.nth machine.alphabet cnt)
+        else
+            Printf.printf " %s" (List.nth machine.alphabet cnt)
     done;
     Printf.printf " ]\n";
-    Printf.printf "    initial: \"%s\"\n" machine.initial;
-    Printf.printf "    finals: [";
-    for cnt = 0 to (List.length machine.finals) - 1 do
-        Printf.printf " \"%s\"" (List.nth machine.finals cnt)
+    Printf.printf "States : [";
+    for cnt = 0 to (List.length machine.states) -1 do
+        if (cnt < (List.length machine.states) - 1) then
+            Printf.printf " %s," (List.nth machine.states cnt)
+        else
+            Printf.printf " %s" (List.nth machine.states cnt)
     done;
-    Printf.printf " ]\n\n    transitions:\n";
-    List.iter (fun transition -> display_transition transition) machine.transitions
+    Printf.printf " ]\n";
+    Printf.printf "Initial : %s\n" machine.initial;
+    Printf.printf "Finals : [";
+    for cnt = 0 to (List.length machine.finals) - 1 do
+        if (cnt < (List.length machine.finals) - 1) then
+            Printf.printf " %s," (List.nth machine.finals cnt)
+        else
+            Printf.printf " %s" (List.nth machine.finals cnt)
+    done;
+    Printf.printf " ]\n";
+    List.iter (fun transition -> (List.iter (fun instruction -> simple_display_instruction transition.transition_name instruction) transition.instructions)) machine.transitions;
+    Printf.printf "********************************************************************************\n"
 
 exception Invalid_json_machine of string
 
@@ -128,9 +181,9 @@ let get_instruction json_instruction states alphabet =
         action = (if action = "RIGHT" then true else false);
     }
 
-let create machine_json_string =
+let create machine_json_filepath =
     let open Yojson.Basic.Util in
-    let json = Yojson.Basic.from_string machine_json_string in
+    let json = Yojson.Basic.from_file machine_json_filepath in
     let name = json |> member "name" |> to_string in
     let alphabet = json |> member "alphabet" |> to_list |> filter_string in
     let blank = json |> member "blank" |> to_string in
@@ -141,11 +194,6 @@ let create machine_json_string =
     let json_transitions = json |> member "transitions" in
     let transitions_name = json_transitions |> keys in
 
-    (* TODO check value *)
-
-    (* TODO check in transitions all elm name part of states *)
-        (* TODO check in transitions elm all read and write part of alphabet *)
-        (* TODO check in transitions elm all to_state part of states *)
     if String.length name = 0 then
         raise (Invalid_json_machine "machine name invalide or missing")
     else if (check_alphabet alphabet) = false then

@@ -1,0 +1,177 @@
+{
+    "name" : "utm",
+    "alphabet": [ "s", "e", "h", "C", "S", "T", "I", "R", "L", "|", "1", "+", ".", " " ],
+    "blank" : " ",
+    "states" : [ "init", "init_<state>", "init_<state>_get_val", "go_to_states_<state>_<val>", "find_state_<state>_<val>", "good_state_<state>_<val>", "find_instrs_<state>_<val>", "find_instr_<state>_<val>", "get_instr", "get_instr_<state>", "get_instr_HALT", "get_instr_<state>_<val>", "instr_<state>_<val>_R", "instr_HALT_<val>", "instr_<state>_<val>_L", "instr_<state>_<val>_L", "HALT" ],
+    "initial" : "init",
+    "finals" : [ "HALT" ],
+    "transitions" :
+    {
+        "init":
+        [
+            { "read" : "s", "to_state": "init_<state>", "write": "s", "action": "RIGHT"},
+            { "read" : "e", "to_state": "init_<state>", "write": "e", "action": "RIGHT"},
+            { "read" : "h", "to_state": "HALT", "write": "h", "action": "RIGHT"}
+        ],
+        "init_<state>":
+        [
+            { "read" : "I", "to_state": "init_<state>", "write": "I", "action": "RIGHT"},
+            { "read" : "S", "to_state": "init_<state>", "write": "S", "action": "RIGHT"},
+            { "read" : "T", "to_state": "init_<state>", "write": "T", "action": "RIGHT"},
+            { "read" : "s", "to_state": "init_<state>", "write": "s", "action": "RIGHT"},
+            { "read" : "e", "to_state": "init_<state>", "write": "e", "action": "RIGHT"},
+            { "read" : "h", "to_state": "init_<state>", "write": "h", "action": "RIGHT"},
+            { "read" : "1", "to_state": "init_<state>", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "init_<state>", "write": ".", "action": "RIGHT"},
+            { "read" : "+", "to_state": "init_<state>", "write": "+", "action": "RIGHT"},
+            { "read" : "L", "to_state": "init_<state>", "write": "L", "action": "RIGHT"},
+            { "read" : "R", "to_state": "init_<state>", "write": "R", "action": "RIGHT"},
+            { "read" : " ", "to_state": "init_<state>", "write": " ", "action": "RIGHT"},
+            { "read" : "|", "to_state": "init_<state>_get_val", "write": "|", "action": "RIGHT"}
+        ],
+        "init_<state>_get_val":
+        [
+            { "read" : "1", "to_state": "go_to_states_<state>_<val>", "write": "C", "action": "LEFT"},
+            { "read" : ".", "to_state": "go_to_states_<state>_<val>", "write": "C", "action": "LEFT"},
+            { "read" : "+", "to_state": "go_to_states_<state>_<val>", "write": "C", "action": "LEFT"},
+            { "read" : " ", "to_state": "HALT", "write": " ", "action": "RIGHT"}
+        ],
+        "go_to_states_<state>_<val>":
+        [
+            { "read" : "S", "to_state": "find_state_<state>_<val>", "write": "S", "action": "RIGHT"},
+            { "read" : "I", "to_state": "go_to_states_<state>_<val>", "write": "I", "action": "LEFT"},
+            { "read" : "T", "to_state": "go_to_states_<state>_<val>", "write": "T", "action": "LEFT"},
+            { "read" : "s", "to_state": "go_to_states_<state>_<val>", "write": "s", "action": "LEFT"},
+            { "read" : "e", "to_state": "go_to_states_<state>_<val>", "write": "e", "action": "LEFT"},
+            { "read" : "h", "to_state": "go_to_states_<state>_<val>", "write": "h", "action": "LEFT"},
+            { "read" : "1", "to_state": "go_to_states_<state>_<val>", "write": "1", "action": "LEFT"},
+            { "read" : ".", "to_state": "go_to_states_<state>_<val>", "write": ".", "action": "LEFT"},
+            { "read" : "+", "to_state": "go_to_states_<state>_<val>", "write": "+", "action": "LEFT"},
+            { "read" : "L", "to_state": "go_to_states_<state>_<val>", "write": "L", "action": "LEFT"},
+            { "read" : "R", "to_state": "go_to_states_<state>_<val>", "write": "R", "action": "LEFT"},
+            { "read" : " ", "to_state": "go_to_states_<state>_<val>", "write": " ", "action": "LEFT"}
+        ],
+        "find_state_<state>_<val>":
+        [
+            { "read" : "T", "to_state": "good_state_<state>_<val>", "write": "T", "action": "RIGHT"},
+            { "read" : "I", "to_state": "find_state_<state>_<val>", "write": "I", "action": "RIGHT"},
+            { "read" : "S", "to_state": "find_state_<state>_<val>", "write": "S", "action": "RIGHT"},
+            { "read" : "s", "to_state": "find_state_<state>_<val>", "write": "s", "action": "RIGHT"},
+            { "read" : "e", "to_state": "find_state_<state>_<val>", "write": "e", "action": "RIGHT"},
+            { "read" : "h", "to_state": "find_state_<state>_<val>", "write": "h", "action": "RIGHT"},
+            { "read" : "1", "to_state": "find_state_<state>_<val>", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "find_state_<state>_<val>", "write": ".", "action": "RIGHT"},
+            { "read" : "+", "to_state": "find_state_<state>_<val>", "write": "+", "action": "RIGHT"},
+            { "read" : "L", "to_state": "find_state_<state>_<val>", "write": "L", "action": "RIGHT"},
+            { "read" : "R", "to_state": "find_state_<state>_<val>", "write": "R", "action": "RIGHT"},
+            { "read" : " ", "to_state": "find_state_<state>_<val>", "write": " ", "action": "RIGHT"},
+            { "read" : "|", "to_state": "HALT", "write": "|", "action": "RIGHT"}
+        ],
+        "good_state_<state>_<val>":
+        [
+            { "read" : "<state>", "to_state": "find_instrs_<state>_<val>", "write": "<state>", "action": "RIGHT"},
+            { "read" : "<other_state>", "to_state": "find_state_<state>_<val>", "write": "<other_state>", "action": "RIGHT"},
+            { "read" : "T", "to_state": "find_state_<state>_<val>", "write": "T", "action": "RIGHT"},
+            { "read" : "I", "to_state": "find_state_<state>_<val>", "write": "I", "action": "RIGHT"},
+            { "read" : "S", "to_state": "find_state_<state>_<val>", "write": "S", "action": "RIGHT"},
+            { "read" : "h", "to_state": "find_state_<state>_<val>", "write": "h", "action": "RIGHT"},
+            { "read" : "1", "to_state": "find_state_<state>_<val>", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "find_state_<state>_<val>", "write": ".", "action": "RIGHT"},
+            { "read" : "+", "to_state": "find_state_<state>_<val>", "write": "+", "action": "RIGHT"},
+            { "read" : "L", "to_state": "find_state_<state>_<val>", "write": "L", "action": "RIGHT"},
+            { "read" : "R", "to_state": "find_state_<state>_<val>", "write": "R", "action": "RIGHT"},
+            { "read" : " ", "to_state": "find_state_<state>_<val>", "write": " ", "action": "RIGHT"},
+            { "read" : "|", "to_state": "HALT", "write": "|", "action": "RIGHT"}
+        ],
+        "find_instrs_<state>_<val>":
+        [
+            { "read" : "I", "to_state": "find_instr_<state>_<val>", "write": "I", "action": "RIGHT"},
+            { "read" : "T", "to_state": "HALT", "write": "T", "action": "RIGHT"},
+            { "read" : "S", "to_state": "find_instrs_<state>_<val>", "write": "S", "action": "RIGHT"},
+            { "read" : "s", "to_state": "find_instrs_<state>_<val>", "write": "s", "action": "RIGHT"},
+            { "read" : "e", "to_state": "find_instrs_<state>_<val>", "write": "e", "action": "RIGHT"},
+            { "read" : "h", "to_state": "find_instrs_<state>_<val>", "write": "h", "action": "RIGHT"},
+            { "read" : "1", "to_state": "find_instrs_<state>_<val>", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "find_instrs_<state>_<val>", "write": ".", "action": "RIGHT"},
+            { "read" : "+", "to_state": "find_instrs_<state>_<val>", "write": "+", "action": "RIGHT"},
+            { "read" : "L", "to_state": "find_instrs_<state>_<val>", "write": "L", "action": "RIGHT"},
+            { "read" : "R", "to_state": "find_instrs_<state>_<val>", "write": "R", "action": "RIGHT"},
+            { "read" : " ", "to_state": "find_instrs_<state>_<val>", "write": " ", "action": "RIGHT"},
+            { "read" : "|", "to_state": "HALT", "write": "|", "action": "RIGHT"}
+        ],
+        "find_instr_<state>_<val>":
+        [
+            { "read" : "<val>", "to_state": "get_instr", "write": "<val>", "action": "RIGHT"},
+            { "read" : "<other_val>", "to_state": "find_instrs_<state>_<val>", "write": "<other_val>", "action": "RIGHT"}
+        ],
+        "get_instr":
+        [
+            { "read" : "<state>", "to_state": "get_instr_<state>", "write": "<state>", "action": "RIGHT"},
+            { "read" : "h", "to_state": "get_instr_HALT", "write": "h", "action": "RIGHT"}
+        ],
+        "get_instr_<state>":
+        [
+            { "read" : "<val>", "to_state": "get_instr_<state>_<val>", "write": "<val>", "action": "RIGHT"}
+        ],
+        "get_instr_HALT":
+        [
+            { "read" : "<val>", "to_state": "instr_HALT_<val>", "write": "<val>", "action": "RIGHT"}
+        ],
+        "get_instr_<state>_<val>":
+        [
+            { "read" : "R", "to_state": "instr_<state>_<val>_R", "write": "R", "action": "RIGHT"},
+            { "read" : "L", "to_state": "instr_<state>_<val>_L", "write": "L", "action": "RIGHT"}
+        ],
+        "instr_<state>_<val>_R":
+        [
+            { "read" : "I", "to_state": "instr_<state>_<val>_R", "write": "I", "action": "RIGHT"},
+            { "read" : "S", "to_state": "instr_<state>_<val>_R", "write": "S", "action": "RIGHT"},
+            { "read" : "T", "to_state": "instr_<state>_<val>_R", "write": "T", "action": "RIGHT"},
+            { "read" : "s", "to_state": "instr_<state>_<val>_R", "write": "s", "action": "RIGHT"},
+            { "read" : "e", "to_state": "instr_<state>_<val>_R", "write": "e", "action": "RIGHT"},
+            { "read" : "h", "to_state": "instr_<state>_<val>_R", "write": "h", "action": "RIGHT"},
+            { "read" : "1", "to_state": "instr_<state>_<val>_R", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "instr_<state>_<val>_R", "write": ".", "action": "RIGHT"},
+            { "read" : "+", "to_state": "instr_<state>_<val>_R", "write": "+", "action": "RIGHT"},
+            { "read" : "L", "to_state": "instr_<state>_<val>_R", "write": "L", "action": "RIGHT"},
+            { "read" : "R", "to_state": "instr_<state>_<val>_R", "write": "R", "action": "RIGHT"},
+            { "read" : " ", "to_state": "instr_<state>_<val>_R", "write": " ", "action": "RIGHT"},
+            { "read" : "|", "to_state": "instr_<state>_<val>_R", "write": "|", "action": "RIGHT"},
+            { "read" : "C", "to_state": "init_<state>_get_val", "write": "<val>", "action": "RIGHT"}
+        ],
+        "instr_HALT_<val>":
+        [
+            { "read" : "I", "to_state": "instr_HALT_<val>", "write": "I", "action": "RIGHT"},
+            { "read" : "S", "to_state": "instr_HALT_<val>", "write": "S", "action": "RIGHT"},
+            { "read" : "T", "to_state": "instr_HALT_<val>", "write": "T", "action": "RIGHT"},
+            { "read" : "s", "to_state": "instr_HALT_<val>", "write": "s", "action": "RIGHT"},
+            { "read" : "e", "to_state": "instr_HALT_<val>", "write": "e", "action": "RIGHT"},
+            { "read" : "h", "to_state": "instr_HALT_<val>", "write": "h", "action": "RIGHT"},
+            { "read" : "1", "to_state": "instr_HALT_<val>", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "instr_HALT_<val>", "write": ".", "action": "RIGHT"},
+            { "read" : "+", "to_state": "instr_HALT_<val>", "write": "+", "action": "RIGHT"},
+            { "read" : "L", "to_state": "instr_HALT_<val>", "write": "L", "action": "RIGHT"},
+            { "read" : "R", "to_state": "instr_HALT_<val>", "write": "R", "action": "RIGHT"},
+            { "read" : " ", "to_state": "instr_HALT_<val>", "write": " ", "action": "RIGHT"},
+            { "read" : "|", "to_state": "instr_HALT_<val>", "write": "|", "action": "RIGHT"},
+            { "read" : "C", "to_state": "HALT", "write": "<val>", "action": "RIGHT"}
+        ],
+        "instr_<state>_<val>_L":
+        [
+            { "read" : "I", "to_state": "instr_<state>_<val>_L", "write": "I", "action": "RIGHT"},
+            { "read" : "S", "to_state": "instr_<state>_<val>_L", "write": "S", "action": "RIGHT"},
+            { "read" : "T", "to_state": "instr_<state>_<val>_L", "write": "T", "action": "RIGHT"},
+            { "read" : "s", "to_state": "instr_<state>_<val>_L", "write": "s", "action": "RIGHT"},
+            { "read" : "e", "to_state": "instr_<state>_<val>_L", "write": "e", "action": "RIGHT"},
+            { "read" : "h", "to_state": "instr_<state>_<val>_L", "write": "h", "action": "RIGHT"},
+            { "read" : "1", "to_state": "instr_<state>_<val>_L", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "instr_<state>_<val>_L", "write": ".", "action": "RIGHT"},
+            { "read" : "+", "to_state": "instr_<state>_<val>_L", "write": "+", "action": "RIGHT"},
+            { "read" : "L", "to_state": "instr_<state>_<val>_L", "write": "L", "action": "RIGHT"},
+            { "read" : "R", "to_state": "instr_<state>_<val>_L", "write": "R", "action": "RIGHT"},
+            { "read" : " ", "to_state": "instr_<state>_<val>_L", "write": " ", "action": "RIGHT"},
+            { "read" : "|", "to_state": "instr_<state>_<val>_L", "write": "|", "action": "RIGHT"},
+            { "read" : "C", "to_state": "init_<state>_get_val", "write": "<val>", "action": "LEFT"}
+        ]
+    }
+}
