@@ -14,8 +14,8 @@ fclean: clean
 
 $(NAME):
 	@echo "  BUILD    $@"
-	#@opam install Core
-	#@opam install Yojson
+	@opam install Core
+	@opam install Yojson
 	@dune build
 	@cp _build/default/bin/main.exe ft_turing
 
