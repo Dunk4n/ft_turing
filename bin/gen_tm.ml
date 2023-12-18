@@ -4,6 +4,38 @@ sSTsI1s1RI+s1RI.e.LTeI1h.RI.h.R|111+11
 [seh]STsI1s1RI+s1RI.e.LTeI1h.RI.h.R|111+11
 [seh]STsI1s1RI+s1RI.e.LTeI1h.RI.h.R|C11+11
 
+s             [INITIAL STATE:seh]
+S              [start of transitions definition:S]
+    T s         [transition definition:T] [transition name:seh]
+        I        [start of an instruction:I]
+            1     [read:1+.]
+            s     [to_state:seh]
+            1     [write:1+.]
+            R     [action:RL]
+        I        [start of an instruction:I]
+            +     [read:1+.]
+            s     [to_state:seh]
+            1     [write:1+.]
+            R     [action:RL]
+        I        [start of an instruction:I]
+            .     [read:1+.]
+            e     [to_state:seh]
+            .     [write:1+.]
+            L     [action:RL]
+    T e          [transition definition:T] [transition name:seh]
+        I         [start of an instruction:I]
+            1     [read:1+.]
+            h     [to_state:seh]
+            .     [write:1+.]
+            R     [action:RL]
+        I        [start of an instruction:I]
+            .     [read:1+.]
+            h     [to_state:seh]
+            .     [write:1+.]
+            R     [action:RL]
+|111+11       [start of the band:|]
+
+
 first char of input is the initial state
 the 'S' is the start of transitions definition
 the 'T' is the start of a transition definition of the state specified as the next char

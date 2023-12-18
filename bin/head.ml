@@ -93,7 +93,6 @@ let go_left head =
     else
         head.index <- head.index - 1
 
-(* TODO check for loop *)
 let run head =
     while not (List.mem head.actual_state head.machine.finals) do
         let next_state, new_char, dir = get_next_instruction head in
