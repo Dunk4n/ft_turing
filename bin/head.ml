@@ -89,7 +89,7 @@ let go_right head =
 
 let go_left head =
     if head.index = 0 then
-        raise (Invalid_instruction "tying to go LEFT before start")
+        raise (Invalid_instruction "trying to go LEFT before start")
     else
         head.index <- head.index - 1
 
